@@ -1,44 +1,44 @@
 {% extends '../layouts/default.html' %}
 
 {% block main %}
-  <h1>{{ article.title }}</h1>
+  <h1>{{ center.title }}</h1>
 {% endblock %}
 
 {% block content %}
   <div class="row">
     <div class="col-md-8">
-      <p>{{ article.body }}</p>
+      <p>{{ center.body }}</p>
       <div class="meta">
-        {% if (article.user) %}
+        {% if (center.user) %}
           Author: &nbsp;
-          <a href="{{ '/users/' + article.user._id }}">
-            {{ article.user.name || article.user.username }}
+          <a href="{{ '/users/' + center.user._id }}">
+            {{ center.user.name || center.user.username }}
           </a>
         {% endif %}
-        {% if (article.tags) %}
+        {% if (center.tags) %}
           <p>
             Tags: &nbsp;
-            {% for tag in article.tags.split(',') %}
+            {% for tag in center.tags.split(',') %}
               <i class="muted fa fa-tag"></i>&nbsp;
               <a href="{{ '/tags/' + tag }}" class="tag">{{ tag }}</a>
               &nbsp;&nbsp;
             {% endfor %}
           </p>
         {% endif %}
-        <span class="muted">{{ article.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
+        <span class="muted">{{ center.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
       </div>
     </div>
     <div class="col-md-4">
-      {% if (!article.isNew && article.image && article.image.files && article.image.files.length) %}
-        <img src="{{ article.image.cdnUri + '/mini_' + article.image.files[0] }}" alt="">
+      {% if (!center.isNew && center.image && center.image.files && center.image.files.length) %}
+        <img src="{{ center.image.cdnUri + '/mini_' + center.image.files[0] }}" alt="">
       {% endif %}
     </div>
   </div>
 
-  <form action="{{ '/articles/' + article.id }}" method="post" onsubmit="return confirm('Are you sure?')">
+  <form action="{{ '/centers/' + center.id }}" method="post" onsubmit="return confirm('Are you sure?')">
     <br>
     <input type="hidden" name="_csrf" value="{{ csrf_token }}">
-    <a href="{{ '/articles/' + article._id + '/edit' }}" title="edit" class="btn btn-default">
+    <a href="{{ '/centers/' + center._id + '/edit' }}" title="edit" class="btn btn-default">
       Edit
     </a>
     &nbsp;
@@ -46,10 +46,4 @@
     <button class="btn btn-danger" type="submit">Delete</button>
   </form>
 
-  <br>
-  <h3>Comments</h3>
-  {% for comment in article.comments %}
-    {% include '../comments/comment.html' %}
-  {% endfor %}
-  {% include '../comments/form.html' %}
 {% endblock %}

@@ -6,10 +6,10 @@
 {% endblock %}
 
 {% block content %}
-  {% if article.isNew %}
-    {% set action = '/articles' %}
+  {% if center.isNew %}
+    {% set action = '/centers' %}
   {% else %}
-    {% set action = '/articles/' + article._id %}
+    {% set action = '/centers/' + center._id %}
   {% endif %}
 
   <div class="row">
@@ -18,14 +18,14 @@
 
         <input type="hidden" name="_csrf" value="{{ csrf_token }}">
 
-        {% if not article.isNew %}
+        {% if not center.isNew %}
           <input type="hidden" name="_method" value="PUT">
         {% endif %}
 
         <div class="form-group">
           <label for="title" class="col-sm-2 control-label">Title</label>
           <div class="col-sm-10">
-            <input type="text" name="title" value="{{ article.title }}" placeholder="Enter the title" class="form-control" id="title">
+            <input type="text" name="title" value="{{ center.title }}" placeholder="Enter the title" class="form-control" id="title">
           </div>
         </div>
 
@@ -39,14 +39,14 @@
         <div class="form-group">
           <label for="desc" class="col-sm-2 control-label">Body</label>
           <div class="col-sm-10">
-            <textarea rows="5" name="body" placeholder="Enter the article description" id="desc" cols="30" rows="10" class="form-control">{{ article.body }}</textarea>
+            <textarea rows="5" name="body" placeholder="Enter the center description" id="desc" cols="30" rows="10" class="form-control">{{ center.body }}</textarea>
           </div>
         </div>
 
         <div class="form-group">
           <label for="tags" class="col-sm-2 control-label">Tags</label>
           <div class="col-sm-10">
-            <input type="text" name="tags" value="{{ article.tags }}" placeholder="Enter the tags" class="form-control" id="tags">
+            <input type="text" name="tags" value="{{ center.tags }}" placeholder="Enter the tags" class="form-control" id="tags">
           </div>
         </div>
 
@@ -54,14 +54,14 @@
           <div class="col-sm-offset-2 col-sm-10">
             <button class="btn btn-primary" type="submit">Save</button>
             &nbsp;
-            <a href="/articles" class="btn btn-link">Cancel</a>
+            <a href="/centers" class="btn btn-link">Cancel</a>
           </div>
         </div>
       </form>
     </div>
     <div class="col-md-4">
-      {% if (!article.isNew && article.image && article.image.files && article.image.files.length) %}
-        <img src="{{ article.image.cdnUri + '/mini_' + article.image.files[0] }}" alt="">
+      {% if (!center.isNew && center.image && center.image.files && center.image.files.length) %}
+        <img src="{{ center.image.cdnUri + '/mini_' + center.image.files[0] }}" alt="">
       {% endif %}
     </div>
   </div>

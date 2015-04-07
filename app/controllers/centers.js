@@ -15,10 +15,10 @@ var extend = require('util')._extend
 exports.load = function (req, res, next, id){
   var User = mongoose.model('User');
 
-  Center.load(id, function (err, article) {
+  Center.load(id, function (err, center) {
     if (err) return next(err);
-    if (!article) return next(new Error('not found'));
-    req.article = article;
+    if (!center) return next(new Error('not found'));
+    req.center = center;
     next();
   });
 };
@@ -35,12 +35,12 @@ exports.index = function (req, res){
     page: page
   };
 
-  Center.list(options, function (err, articles) {
+  Center.list(options, function (err, centers) {
     if (err) return res.render('500');
     Center.count().exec(function (err, count) {
-      res.render('articles/index', {
+      res.render('centers/index', {
         title: 'Centers',
-        articles: articles,
+        centers: centers,
         page: page + 1,
         pages: Math.ceil(count / perPage)
       });
@@ -49,75 +49,75 @@ exports.index = function (req, res){
 };
 
 /**
- * New article
+ * New center
  */
 
 exports.new = function (req, res){
-  res.render('articles/new', {
+  res.render('centers/new', {
     title: 'New Center',
-    article: new Center({})
+    center: new Center({})
   });
 };
 
 /**
- * Create an article
+ * Create an center
  * Upload an image
  */
 
 exports.create = function (req, res) {
-  var article = new Center(req.body);
+  var center = new Center(req.body);
   var images = req.files.image
     ? [req.files.image]
     : undefined;
 
-  article.user = req.user;
-  article.uploadAndSave(images, function (err) {
+  center.user = req.user;
+  center.uploadAndSave(images, function (err) {
     if (!err) {
-      req.flash('success', 'Successfully created article!');
-      return res.redirect('/articles/'+article._id);
+      req.flash('success', 'Successfully created center!');
+      return res.redirect('/centers/'+center._id);
     }
     console.log(err);
-    res.render('articles/new', {
+    res.render('centers/new', {
       title: 'New Center',
-      article: article,
+      center: center,
       errors: utils.errors(err.errors || err)
     });
   });
 };
 
 /**
- * Edit an article
+ * Edit an center
  */
 
 exports.edit = function (req, res) {
-  res.render('articles/edit', {
-    title: 'Edit ' + req.article.title,
-    article: req.article
+  res.render('centers/edit', {
+    title: 'Edit ' + req.center.title,
+    center: req.center
   });
 };
 
 /**
- * Update article
+ * Update center
  */
 
 exports.update = function (req, res){
-  var article = req.article;
+  var center = req.center;
   var images = req.files.image
     ? [req.files.image]
     : undefined;
 
   // make sure no one changes the user
   delete req.body.user;
-  article = extend(article, req.body);
+  center = extend(center, req.body);
 
-  article.uploadAndSave(images, function (err) {
+  center.uploadAndSave(images, function (err) {
     if (!err) {
-      return res.redirect('/articles/' + article._id);
+      return res.redirect('/centers/' + center._id);
     }
 
-    res.render('articles/edit', {
+    res.render('centers/edit', {
       title: 'Edit Center',
-      article: article,
+      center: center,
       errors: utils.errors(err.errors || err)
     });
   });
@@ -128,20 +128,20 @@ exports.update = function (req, res){
  */
 
 exports.show = function (req, res){
-  res.render('articles/show', {
-    title: req.article.title,
-    article: req.article
+  res.render('centers/show', {
+    title: req.center.title,
+    center: req.center
   });
 };
 
 /**
- * Delete an article
+ * Delete an center
  */
 
 exports.destroy = function (req, res){
-  var article = req.article;
-  article.remove(function (err){
+  var center = req.center;
+  center.remove(function (err){
     req.flash('info', 'Deleted successfully');
-    res.redirect('/articles');
+    res.redirect('/centers');
   });
 };

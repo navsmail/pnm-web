@@ -9,16 +9,16 @@ var mongoose = require('mongoose')
   , app = require('../server')
   , context = describe
   , User = mongoose.model('User')
-  , Article = mongoose.model('Article')
+  , Center = mongoose.model('Center')
   , agent = request.agent(app)
 
 var count
 
 /**
- * Articles tests
+ * Centers tests
  */
 
-describe('Articles', function () {
+describe('Centers', function () {
   before(function (done) {
     // create a user
     var user = new User({
@@ -30,22 +30,22 @@ describe('Articles', function () {
     user.save(done)
   })
 
-  describe('GET /articles', function () {
+  describe('GET /centers', function () {
     it('should respond with Content-Type text/html', function (done) {
       agent
-      .get('/articles')
+      .get('/centers')
       .expect('Content-Type', /html/)
       .expect(200)
-      .expect(/Articles/)
+      .expect(/Centers/)
       .end(done)
     })
   })
 
-  describe('GET /articles/new', function () {
+  describe('GET /centers/new', function () {
     context('When not logged in', function () {
       it('should redirect to /login', function (done) {
         agent
-        .get('/articles/new')
+        .get('/centers/new')
         .expect('Content-Type', /plain/)
         .expect(302)
         .expect('Location', '/login')
@@ -66,20 +66,20 @@ describe('Articles', function () {
 
       it('should respond with Content-Type text/html', function (done) {
         agent
-        .get('/articles/new')
+        .get('/centers/new')
         .expect('Content-Type', /html/)
         .expect(200)
-        .expect(/New Article/)
+        .expect(/New Center/)
         .end(done)
       })
     })
   })
 
-  describe('POST /articles', function () {
+  describe('POST /centers', function () {
     context('When not logged in', function () {
       it('should redirect to /login', function (done) {
         request(app)
-        .get('/articles/new')
+        .get('/centers/new')
         .expect('Content-Type', /plain/)
         .expect(302)
         .expect('Location', '/login')
@@ -100,7 +100,7 @@ describe('Articles', function () {
 
       describe('Invalid parameters', function () {
         before(function (done) {
-          Article.count(function (err, cnt) {
+          Center.count(function (err, cnt) {
             count = cnt
             done()
           })
@@ -108,17 +108,17 @@ describe('Articles', function () {
 
         it('should respond with error', function (done) {
           agent
-          .post('/articles')
+          .post('/centers')
           .field('title', '')
           .field('body', 'foo')
           .expect('Content-Type', /html/)
           .expect(200)
-          .expect(/Article title cannot be blank/)
+          .expect(/Center title cannot be blank/)
           .end(done)
         })
 
         it('should not save to the database', function (done) {
-          Article.count(function (err, cnt) {
+          Center.count(function (err, cnt) {
             count.should.equal(cnt)
             done()
           })
@@ -127,42 +127,42 @@ describe('Articles', function () {
 
       describe('Valid parameters', function () {
         before(function (done) {
-          Article.count(function (err, cnt) {
+          Center.count(function (err, cnt) {
             count = cnt
             done()
           })
         })
 
-        it('should redirect to the new article page', function (done) {
+        it('should redirect to the new center page', function (done) {
           agent
-          .post('/articles')
+          .post('/centers')
           .field('title', 'foo')
           .field('body', 'bar')
           .expect('Content-Type', /plain/)
-          .expect('Location', /\/articles\//)
+          .expect('Location', /\/centers\//)
           .expect(302)
           .expect(/Moved Temporarily/)
           .end(done)
         })
 
         it('should insert a record to the database', function (done) {
-          Article.count(function (err, cnt) {
+          Center.count(function (err, cnt) {
             cnt.should.equal(count + 1)
             done()
           })
         })
 
-        it('should save the article to the database', function (done) {
-          Article
+        it('should save the center to the database', function (done) {
+          Center
           .findOne({ title: 'foo'})
           .populate('user')
-          .exec(function (err, article) {
+          .exec(function (err, center) {
             should.not.exist(err)
-            article.should.be.an.instanceOf(Article)
-            article.title.should.equal('foo')
-            article.body.should.equal('bar')
-            article.user.email.should.equal('foobar@example.com')
-            article.user.name.should.equal('Foo bar')
+            center.should.be.an.instanceOf(Center)
+            center.title.should.equal('foo')
+            center.body.should.equal('bar')
+            center.user.email.should.equal('foobar@example.com')
+            center.user.name.should.equal('Foo bar')
             done()
           })
         })

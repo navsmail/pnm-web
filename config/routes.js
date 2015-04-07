@@ -3,19 +3,19 @@
  * Module dependencies.
  */
 
-// Note: We can require users, articles and other cotrollers because we have
+// Note: We can require users, centers and other cotrollers because we have
 // set the NODE_PATH to be ./app/controllers (package.json # scripts # start)
 
 var main = require('main');
 var users = require('users');
 var centers = require('centers');
-// var auth = require('./middlewares/authorization');
+var auth = require('./middlewares/authorization');
 
 /**
  * Route middlewares
  */
 
-// var articleAuth = [auth.requiresLogin, auth.article.hasAuthorization];
+var centerAuth = [auth.requiresLogin, auth.center.hasAuthorization];
 // var commentAuth = [auth.requiresLogin, auth.comment.hasAuthorization];
 
 /**
@@ -51,14 +51,14 @@ module.exports = function (app, passport) {
   app.param('userId', users.load);
 
   // center routes
-  // app.param('id', centers.load);
-  // app.get('/centers', centers.index);
-  // app.get('/centers/new', auth.requiresLogin, centers.new);
-  // app.post('/centers', auth.requiresLogin, centers.create);
-  // app.get('/centers/:id', centers.show);
-  // app.get('/centers/:id/edit', centerAuth, centers.edit);
-  // app.put('/centers/:id', centerAuth, centers.update);
-  // app.delete('/centers/:id', centerAuth, centers.destroy);
+  app.param('id', centers.load);
+  app.get('/centers', centers.index);
+  app.get('/centers/new', auth.requiresLogin, centers.new);
+  app.post('/centers', auth.requiresLogin, centers.create);
+  app.get('/centers/:id', centers.show);
+  app.get('/centers/:id/edit', centerAuth, centers.edit);
+  app.put('/centers/:id', centerAuth, centers.update);
+  app.delete('/centers/:id', centerAuth, centers.destroy);
 
   // home route
   app.get('/', main.index);

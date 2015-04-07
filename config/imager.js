@@ -5,7 +5,7 @@
 
 module.exports = {
   variants: {
-    article: {
+    center: {
       resize: {
         detail: 'x440'
       },
@@ -28,7 +28,8 @@ module.exports = {
     S3: {
       key: process.env.IMAGER_S3_KEY,
       secret: process.env.IMAGER_S3_SECRET,
-      bucket: process.env.IMAGER_S3_BUCKET
+      bucket: process.env.IMAGER_S3_BUCKET,
+      secure: false,
     }
   },
 
