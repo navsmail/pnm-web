@@ -1,0 +1,28 @@
+<div class="center">
+  <h3>
+    <a href="{{ '/centers/' + center._id }}" title="{{ center.title }}">
+      {{ center.title }}
+    </a>
+  </h3>
+  <p>{{ center.body }}</p>
+
+  <span class="muted">{{ center.createdAt.toISOString()|date('M d, Y  h:m a') }}</span>
+
+  {% if (center.user) %}
+    &nbsp; - &nbsp;
+    <span>Author: </span>
+    <a href="{{ '/users/' + center.user._id }}">
+      {{ center.user.name || center.user.username }}
+    </a>
+  {% endif %}
+
+  {% if (center.tags) %}
+    &nbsp; - &nbsp;
+    <span>Tags: </span>
+    {% for tag in center.tags.split(',') %}
+      <i class="muted fa fa-tag"></i>&nbsp;
+      <a href="{{ '/tags/' + tag }}" class="tag">{{ tag }}</a>
+      &nbsp;&nbsp;
+    {% endfor %}
+  {% endif %}
+</div>
