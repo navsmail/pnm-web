@@ -83,33 +83,6 @@ CenterSchema.methods = {
   },
 
   /**
-   * Add comment
-   *
-   * @param {User} user
-   * @param {Object} comment
-   * @param {Function} cb
-   * @api private
-   */
-
-  addComment: function (user, comment, cb) {
-    var notify = require('../mailer');
-
-    this.comments.push({
-      body: comment.body,
-      user: user._id
-    });
-
-    if (!this.user.email) this.user.email = 'email@product.com';
-    notify.comment({
-      center: this,
-      currentUser: user,
-      comment: comment.body
-    });
-
-    this.save(cb);
-  },
-
-  /**
    * Remove comment
    *
    * @param {commentId} String
