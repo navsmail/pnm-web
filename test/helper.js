@@ -3,10 +3,8 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , async = require('async')
-  , Article = mongoose.model('Article')
-  , User = mongoose.model('User')
+var mongoose = require('mongoose');
+var async = require('async');
 
 /**
  * Clear database
@@ -15,13 +13,9 @@ var mongoose = require('mongoose')
  * @api public
  */
 
-exports.clearDb = function (done) {
-  async.parallel([
-    function (cb) {
-      User.collection.remove(cb)
-    },
-    function (cb) {
-      Article.collection.remove(cb)
-    }
-  ], done)
+exports.clearDb = function () {
+  for (var i in mongoose.connection.collections) {
+    console.log('Removing collection: '+i);
+    mongoose.connection.collections[i].remove(function() {});
+  }
 }

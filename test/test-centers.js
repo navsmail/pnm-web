@@ -3,14 +3,15 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , should = require('should')
-  , request = require('supertest')
-  , app = require('../server')
-  , context = describe
-  , User = mongoose.model('User')
-  , Center = mongoose.model('Center')
-  , agent = request.agent(app)
+var helper = require('./helper');
+var mongoose = require('mongoose');
+var should = require('should');
+var request = require('supertest');
+var app = require('../server');
+var context = describe;
+var User = mongoose.model('User');
+var Center = mongoose.model('Center');
+var agent = request.agent(app);
 
 var count
 
@@ -20,6 +21,8 @@ var count
 
 describe('Centers', function () {
   before(function (done) {
+    helper.clearDb()
+
     // create a user
     var user = new User({
       email: 'foobar@example.com',
@@ -171,6 +174,7 @@ describe('Centers', function () {
   })
 
   after(function (done) {
-    require('./helper').clearDb(done)
+    helper.clearDb()
+    done()
   })
 })

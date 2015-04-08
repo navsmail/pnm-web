@@ -76,7 +76,7 @@ exports.create = function (req, res) {
       req.flash('success', 'Successfully created center!');
       return res.redirect('/centers/'+center._id);
     }
-    console.log(err);
+    // console.log(err);
     res.render('centers/new', {
       title: 'New Center',
       center: center,

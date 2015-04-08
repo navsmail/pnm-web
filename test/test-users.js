@@ -3,12 +3,13 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , should = require('should')
-  , request = require('supertest')
-  , app = require('../server')
-  , context = describe
-  , User = mongoose.model('User')
+var helper = require('./helper');
+var mongoose = require('mongoose');
+var should = require('should');
+var request = require('supertest');
+var app = require('../server');
+var context = describe;
+var User = mongoose.model('User');
 
 var cookies, count
 
@@ -20,6 +21,8 @@ describe('Users', function () {
   describe('POST /users', function () {
     describe('Invalid parameters', function () {
       before(function (done) {
+        helper.clearDb()
+
         User.count(function (err, cnt) {
           count = cnt
           done()
@@ -101,6 +104,7 @@ describe('Users', function () {
   })
 
   after(function (done) {
-    require('./helper').clearDb(done)
+    helper.clearDb();
+    done()
   })
 })

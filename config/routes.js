@@ -29,35 +29,39 @@ module.exports = function (app, passport) {
   app.get('/signup', users.signup);
   app.get('/logout', users.logout);
   app.post('/users', users.create);
-  app.post('/users/session',
-    passport.authenticate('local', {
-      failureRedirect: '/login',
-      failureFlash: 'Invalid email or password.'
-    }), users.session);
   app.get('/users/:userId', users.show);
-  app.get('/auth/google',
-    passport.authenticate('google', {
-      failureRedirect: '/login',
-      scope: [
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/userinfo.email'
-      ]
-    }), users.signin);
-  app.get('/auth/google/callback',
-    passport.authenticate('google', {
-      failureRedirect: '/login'
-    }), users.authCallback);
+
+  //  login locally --------------------------------
+    app.post('/users/session',
+      passport.authenticate('local', {
+        failureRedirect: '/login',
+        failureFlash: 'Invalid email or password.'
+      }), users.session);
+
+  // login with google -----------------------------
+    app.get('/auth/google',
+      passport.authenticate('google', {
+        failureRedirect: '/login',
+        scope: [
+          'https://www.googleapis.com/auth/userinfo.profile',
+          'https://www.googleapis.com/auth/userinfo.email'
+        ]
+      }), users.signin);
+    app.get('/auth/google/callback',
+      passport.authenticate('google', {
+        failureRedirect: '/login'
+      }), users.authCallback);
 
   app.param('userId', users.load);
 
   // center routes
   app.param('id', centers.load);
   app.get('/centers', centers.index);
-  app.get('/centers/new', auth.requiresLogin, centers.new);
   app.post('/centers', auth.requiresLogin, centers.create);
+  app.get('/centers/new', auth.requiresLogin, centers.new);
   app.get('/centers/:id', centers.show);
-  app.get('/centers/:id/edit', centerAuth, centers.edit);
   app.put('/centers/:id', centerAuth, centers.update);
+  app.get('/centers/:id/edit', centerAuth, centers.edit);
   app.delete('/centers/:id', centerAuth, centers.destroy);
 
   // home route
