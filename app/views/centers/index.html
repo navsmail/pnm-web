@@ -1,10 +1,7 @@
 {% extends '../layouts/default.html' %}
 
-{% block main %}
-  <h1>{{ title }}</h1>
-{% endblock %}
-
 {% block content %}
+  <div class="spacer"></div>
   {% if (centers.length) %}
     {% for center in centers %}
       {% include 'center.html' %}

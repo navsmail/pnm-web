@@ -11,7 +11,10 @@
 //}
 
 
-/* NAV BAR */
+
+/* Nav bar
+-------------------------------------------------- */
+
 .navbar {
   font-family: 'Open Sans';
   font-size: 14px;
@@ -21,6 +24,7 @@
   position: absolute;
   width: 100vw;
   margin-top: 20px;
+  margin-bottom: 0;
 
   display: flex;
   justify-content: center;
@@ -114,9 +118,9 @@ body {
 /* Not required for template or sticky footer method. */
 
 
-//.container .text-muted {
-//  margin: 20px 0;
-//}
+.spacer {
+  height: 84px;
+}
 
 #footer > .container {
   padding-left: 15px;
