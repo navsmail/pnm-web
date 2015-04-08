@@ -8,6 +8,6 @@ var extend = require('util')._extend
 
 exports.index = function (req, res){
   res.render('main/index', {
-    title: 'Hello World'
+    // title: 'Hello World'
   });
 };

@@ -1,3 +1,87 @@
+/* Eric's Sass styling
+-------------------------------------------------- */
+
+@import 'partials/reset';
+@import "partials/sass-mq";
+@import "partials/main";
+
+//%outer-gutters {
+//  margin-left: 20px;
+//  margin-right: 20px;
+//}
+
+
+/* NAV BAR */
+.navbar {
+  font-family: 'Open Sans';
+  font-size: 14px;
+}
+
+.navbar {
+  position: absolute;
+  width: 100vw;
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+//  &-container {
+//    width: 50vw;
+//    max-width: 580px;
+//  }
+
+  &-toggle {
+    .icon-bar {
+      background-color: #000000;
+    }
+  }
+
+  &-brand {
+    margin-left: 20px;
+    padding: 0;
+    height: 56px;
+  }
+
+//  &-menu {
+//    width: 50vw;
+//    max-width: 580px;
+//  }
+
+  &-nav {
+    margin-right: 20px;
+    float: right;
+    color: #ffffff;
+    button {
+      font-size: 11px;
+      background-color: color('olive','base');
+      cursor: pointer;
+      border: none;
+      padding: 9px 16px;
+      line-height: 1;
+      &:hover {
+        color: black ;
+        background-color: color('olive', 'tint');
+        border-color: color('olive', 'tint');
+      }
+    }
+  }
+
+  &-item {
+    color: #ffffff;
+    margin: 17px;
+    cursor: pointer;
+    &:hover {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
+}
+
+
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -30,9 +114,9 @@ body {
 /* Not required for template or sticky footer method. */
 
 
-.container .text-muted {
-  margin: 20px 0;
-}
+//.container .text-muted {
+//  margin: 20px 0;
+//}
 
 #footer > .container {
   padding-left: 15px;
@@ -42,10 +126,6 @@ body {
 /* -----------------------------------------------
   App styles
   ------------------------------------------------ */
-
-body {
-  padding-top: 60px;
-}
 
 .center, .comment {
   padding: 15px 0;

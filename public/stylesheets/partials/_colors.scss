@@ -1,0 +1,21 @@
+$colors: (
+  'teal': (
+//    tint: #32bfc1,
+    base: #32bfc1,
+    shade: #1b7876
+  ),
+  'olive': (
+    tint: #c6d45f,
+    base: #b2c049
+  ),
+  'red': (
+    base: #f26746
+  ),
+  'white': (
+    base: #ffffff
+  )
+);
+
+@function color($color-name, $tone: base) {
+    @return map-get(map-get($colors, $color-name), $tone);
+}

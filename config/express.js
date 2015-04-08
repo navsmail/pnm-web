@@ -14,7 +14,7 @@ var methodOverride = require('method-override');
 var csrf = require('csurf');
 var multer = require('multer');
 var swig = require('swig');
-var lessMiddleware = require('less-middleware');
+var sassMiddleware = require('node-sass-middleware');
 
 var mongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
@@ -31,10 +31,13 @@ var env = process.env.NODE_ENV || 'development';
 
 module.exports = function (app, passport) {
 
-  // Configure less middleware
-  app.use(lessMiddleware({
-    src      : config.root + '/public',
-    compress : true
+  // Configure sass middleware
+  app.use(sassMiddleware({
+      src:  config.root + '/public',
+      dest: config.root + '/public',
+      debug: true,
+      // outputStyle: 'compressed',
+      // prefix:  '/prefix'
   }));
 
   // Compression middleware (should be placed before express.static)

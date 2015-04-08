@@ -1,0 +1,150 @@
+// Crop shit to the right margin!
+//      margin-left: calc(50% - 800px);
+//      margin-right: calc(800px - 50%);
+//      @media (min-width: 1600px) { margin-left: 0; margin-right: 0;}
+
+@import "colors";
+
+// ----------------------------------------------------------------------------
+// Helper functions
+// ----------------------------------------------------------------------------
+%default-margin { margin: 10px 0; }
+
+%vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+@mixin flex-ncols($cols) {
+  width: 100vw;
+  @include mq($from: tablet) {
+    max-width: (1600px / $cols);
+    width: (100vw / $cols);
+  }
+}
+
+@mixin flex-image($height,$align-lcr,$align-tcb,$url) {
+  .flex-image {
+    @include mq-scale-between-devices((height: $height),tablet,desktop);
+    background: url($url) no-repeat $align-lcr $align-tcb; //top center bottom;
+    background-size: cover;
+    overflow: hidden;
+  }
+}
+
+@mixin float-margin($side,$right,$left) {
+  margin: 50px 20px;
+  @include mq($from: tablet) {
+    float: $side; margin-right: $right; margin-left: $left;
+  }
+}
+
+@mixin flex-caption($side) {
+  flex-direction: column;
+  @if ($side == right) {
+    .flex-caption div { @include float-margin(left,50px,40px) }
+  }
+  @if ($side == left) {
+    .flex-caption div { @include float-margin(right,40px,50px) }
+  }
+  @include mq($from: tablet) {
+    @if ($side == right) { flex-direction: row-reverse; }
+    @if ($side == left)  { flex-direction: row; }
+  }
+}
+
+@mixin flex-banner($height, $color) {
+  .flex-banner {
+    color: color('white','base');
+    height: $height;
+    background-color: $color;
+    h1 {@extend %vertical-align; margin: 0px 20px;}
+  }
+}
+
+
+// ----------------------------------------------------------------------------
+// Styling
+// ----------------------------------------------------------------------------
+
+//.container-fluid {
+//  padding: 0 !important;
+//}
+
+h1 {
+  @extend %default-margin;
+  @include mq-scale-between-devices((font-size: 50px),tablet,desktop);
+  font-family: 'Lato', sans-serif;
+  font-weight: lighter;
+}
+
+h2 {
+  @extend %default-margin;
+  @include mq-scale-between-devices((font-size: 40px),tablet,desktop);
+  font-family: 'Lato', sans-serif;
+  font-weight: lighter;
+}
+
+p {
+  @extend %default-margin;
+  @include mq-scale-between-devices((font-size: 18px),tablet,desktop);
+  font-family: 'Open Sans';
+  line-height: 1.5;
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+
+  .flex-caption { @include flex-ncols(2); }
+  .flex-image   { @include flex-ncols(2); }
+  .flex-banner  { @include flex-ncols(1); }
+  .flex-caption div { max-width: 490px; }
+
+  &:nth-child(1) {
+    @include flex-caption(left);
+    @include flex-image(800px,right,top,"../img/PNM_homepage_v02_00.jpg");
+    .flex-caption div {
+      text-align: left;
+      margin-top: 200px;
+      h1 {color: color('teal', 'shade');}
+      @include mq($from: tablet) {
+        h1 {margin-right: -30px; margin-left: -30px;}
+        p  {margin-right: 45px; margin-left: -30px;}
+      }
+    }
+  }
+
+  &:nth-child(2) {
+    @include flex-banner(258px,color('teal', 'base'));
+  }
+
+  &:nth-child(3) {
+    @include flex-caption(right);
+    @include flex-image(500px,right,top,"../img/PNM_homepage_v02_01.jpg");
+    .flex-caption h2 {color: color('olive', 'base')}
+  }
+
+  &:nth-child(4) {
+    @include flex-caption(left);
+    @include flex-image(500px,center,bottom,"../img/PNM_homepage_v02_02.jpg");
+    .flex-caption h2 {color: color('teal', 'base')}
+  }
+
+  &:nth-child(5) {
+    @include flex-caption(right);
+    @include flex-image(500px,right,bottom,"../img/PNM_homepage_v02_03.jpg");
+    .flex-caption h2 {color: color('red', 'base')}
+  }
+
+  &:nth-child(6) {
+    @include flex-banner(258px,color('olive', 'base'));
+  }
+
+}
